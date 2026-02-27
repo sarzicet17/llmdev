@@ -1,6 +1,6 @@
 import pytest
 from langchain_openai import OpenAIEmbeddings
-from chatbot.graph import (
+from original.graph import (
     get_bot_response,
     get_messages_list,
     memory,
@@ -54,18 +54,22 @@ def test_create_index():
 def test_get_bot_response_single_message(setup_memory):
     """
     ボットがシンプルなメッセージに応答できるかをテスト。
+    犬のキャラクターが反映されているかも確認。
     """
     response = get_bot_response(USER_MESSAGE_1, setup_memory, THREAD_ID)
     assert isinstance(response, str), "応答は文字列である必要があります。"
     assert "3" in response, "1たす2の計算結果が正しく応答されるべきです。"
+    assert "ワン" in response, "犬のキャラクターが反映されている必要があります。"
 
 def test_get_bot_response_with_rag(setup_memory):
     """
     ボットがRetrieverベースの質問応答を正しく処理できるかをテスト。
+    犬のキャラクターが反映されているかも確認。
     """
     response = get_bot_response(USER_MESSAGE_3, setup_memory, THREAD_ID)
     assert isinstance(response, str), "応答は文字列である必要があります。"
     assert "有給休暇" in response, "RAGベースの質問に関連する応答が含まれるべきです。"
+    assert "ワン" in response, "犬のキャラクターが反映されている必要があります。"
 
 def test_get_bot_response_multiple_messages(setup_memory):
     """

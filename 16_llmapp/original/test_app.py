@@ -1,7 +1,7 @@
 import pytest
 from flask import session
-from chatbot.app import app
-from chatbot.graph import memory, get_messages_list
+from original.app import app
+from original.graph import memory, get_messages_list
 
 USER_MESSAGE_1 = "1たす2は？"
 USER_MESSAGE_2 = "東京駅のイベントの検索結果を教えて"

@@ -8,7 +8,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from langchain.tools.retriever import create_retriever_tool
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langgraph.graph import StateGraph
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
@@ -17,7 +17,6 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 from typing import Annotated
 from typing_extensions import TypedDict
 
-# 環境変数を読み込む
 load_dotenv(".env")
 os.environ['OPENAI_API_KEY'] = os.environ['API_KEY']
 
@@ -110,9 +109,19 @@ def build_graph(model_name, memory):
     llm = ChatOpenAI(model_name=model_name)
     llm_with_tools = llm.bind_tools(tools)
     
+    # システムプロンプトの定義（犬のマスコットキャラクター）
+    system_prompt = SystemMessage(content="""
+あなたは元気で親しみやすい犬のマスコットキャラクターです。
+語尾に「〇〇だワン!」「〇〇ワン!」「〇〇なのワン!」などをつけて話します。
+明るく、フレンドリーで、ユーザーを助けることが大好きです。
+質問には正確に答えながらも、犬のキャラクターを保ちます。
+""")
+    
     # チャットボットの実行方法を定義
     def chatbot(state: State):
-        return {"messages": [llm_with_tools.invoke(state["messages"])]}
+        # システムプロンプトをメッセージの最初に追加
+        messages_with_system = [system_prompt] + state["messages"]
+        return {"messages": [llm_with_tools.invoke(messages_with_system)]}
     
     graph_builder.add_node("chatbot", chatbot)
 
