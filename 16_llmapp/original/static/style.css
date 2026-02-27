@@ -1,7 +1,7 @@
 /* 全体の背景とフォント設定 */
 body {
   font-family: Arial, sans-serif;  /* 使用するフォントをArialに設定 */
-  background-color: #f4f4f9;      /* 背景色を薄いグレーに設定 */
+  background-color: #ffda44b7;      /* 背景色を黄色系に設定 */
   margin: 0;                       /* 余白を0に設定 */
   padding: 0;                      /* パディングを0に設定 */
 }
@@ -49,6 +49,13 @@ body {
 .bot-message {
   background-color: #e2e3e5;       /* ボットのメッセージ背景色を薄い灰色に設定 */
   text-align: left;                /* 左寄せに設定 */
+}
+
+/* ボットのメッセージに犬のアイコンを追加 */
+.bot-message::before {
+  content: '🐶 ';                  /* 犬の顔の絵文字を追加 */
+  font-size: 1.2em;                /* アイコンサイズを少し大きく */
+  margin-right: 5px;               /* アイコンとテキストの間隔 */
 }
 
 /* 吹き出しの三角形を作成するスタイル */
